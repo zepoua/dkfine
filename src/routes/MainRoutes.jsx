@@ -3,6 +3,19 @@ import { lazy } from 'react';
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
+import Membres from '../views/membres/membres';
+import Carnets from '../views/membres/Carnets';
+import Comptes from '../views/membres/Comptes';
+import Cotisations from '../views/caisse/Cotisations';
+import Retraits from '../views/caisse/Retraits';
+import Transactions from '../views/caisse/Transactions';
+import Prets from '../views/caisse/Prets';
+import Remboursements from '../views/caisse/Remboursements';
+import Recettes from '../views/recettes/recettes';
+import Utilisateurs from '../pages/UserPage';
+import Profils from '../views/administration/Profils';
+import Roles from '../views/administration/Roles';
+import Microfinance from '../views/administration/Microfinance';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -35,21 +48,57 @@ const MainRoutes = {
       ]
     },
     {
-      path: 'typography',
-      element: <UtilsTypography />
+      path: 'membres',
+      element: <Membres />
     },
     {
-      path: 'color',
-      element: <UtilsColor />
+      path: 'carnets',
+      element: <Carnets />
     },
     {
-      path: 'shadow',
-      element: <UtilsShadow />
+      path: 'comptes',
+      element: <Comptes />
     },
     {
-      path: '/sample-page',
-      element: <SamplePage />
-    }
+      path: '/cotisations',
+      element: <Cotisations />
+    },
+    {
+      path: '/retraits',
+      element: <Retraits />
+    },
+    {
+      path: '/transactions',
+      element: <Transactions />
+    },
+    {
+      path: '/prets',
+      element: <Prets />
+    },
+    {
+      path: '/remboursements',
+      element: <Remboursements />
+    },
+    {
+      path: '/recettes',
+      element: <Recettes />
+    },
+    {
+      path: '/utilisateurs',
+      element: <Utilisateurs />
+    },
+    {
+      path: '/profils',
+      element: <Profils />
+    },
+    {
+      path: '/roles',
+      element: <Roles />
+    },
+    {
+      path: '/microfinance',
+      element: <Microfinance />
+    },
   ]
 };
 
