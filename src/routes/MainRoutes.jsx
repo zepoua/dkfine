@@ -12,7 +12,7 @@ import Transactions from '../views/caisse/Transactions';
 import Prets from '../views/caisse/Prets';
 import Remboursements from '../views/caisse/Remboursements';
 import Recettes from '../views/recettes/recettes';
-import Utilisateurs from '../pages/UserPage';
+import Utilisateurs from '../views/administration/Utilisateurs';
 import Profils from '../views/administration/Profils';
 import Roles from '../views/administration/Roles';
 import Microfinance from '../views/administration/Microfinance';

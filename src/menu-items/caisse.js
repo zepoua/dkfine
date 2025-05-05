@@ -50,7 +50,7 @@ const caisse = {
         },
         {
           id: 'remboursements',
-          title: 'Remoursements',
+          title: 'Remboursements',
           type: 'item',
           url: '/remboursements',
           breadcrumbs: false

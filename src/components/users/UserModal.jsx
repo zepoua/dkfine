@@ -1,7 +1,7 @@
 import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
-function UserModal({ show, handleClose, handleChange, handleSubmit, form, editingUser }) {
+function UserModal({ show, handleClose, handleChange, handleSubmit, form, editingUser, roles }) {
   return (
     <Modal show={show} onHide={handleClose} style={{ marginLeft: '120px', marginTop: '70px', paddingBottom: '50px' }}>
       <Modal.Header closeButton>
@@ -22,9 +22,17 @@ function UserModal({ show, handleClose, handleChange, handleSubmit, form, editin
             <Form.Control type="text" name="telephone" value={form.telephone} onChange={handleChange} required />
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Role ID</Form.Label>
-            <Form.Control type="number" name="role_id" value={form.role_id} onChange={handleChange} required />
+            <Form.Label>Rôle</Form.Label>
+            <Form.Select name="role_id" value={form.role_id} onChange={handleChange} required>
+              <option value="">-- Sélectionner un rôle --</option>
+              {roles.map((role) => (
+                <option key={role.id} value={role.id}>
+                  {role.libelle}
+                </option>
+              ))}
+            </Form.Select>
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Email</Form.Label>
             <Form.Control type="email" name="email" value={form.email} onChange={handleChange} required />
