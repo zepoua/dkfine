@@ -16,89 +16,90 @@ import Utilisateurs from '../views/administration/Utilisateurs';
 import Profils from '../views/administration/Profils';
 import Roles from '../views/administration/Roles';
 import Microfinance from '../views/administration/Microfinance';
+import PrivateRoute from './PrivateRoute';
+import DossierPrets from '../views/caisse/DossierPrets';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
 
 // utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-
-// sample page routing
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
   path: '/',
-  element: <MainLayout />,
+  element: <PrivateRoute />, // protection ici
   children: [
     {
       path: '/',
-      element: <DashboardDefault />
-    },
-    {
-      path: 'dashboard',
+      element: <MainLayout />,
       children: [
         {
-          path: 'default',
+          path: '/',
           element: <DashboardDefault />
+        },
+        {
+          path: 'dashboard',
+          element: <DashboardDefault />
+        },
+        {
+          path: 'membres',
+          element: <Membres />
+        },
+        {
+          path: 'carnets',
+          element: <Carnets />
+        },
+        {
+          path: 'comptes',
+          element: <Comptes />
+        },
+        {
+          path: 'cotisations',
+          element: <Cotisations />
+        },
+        {
+          path: 'retraits',
+          element: <Retraits />
+        },
+        {
+          path: 'transactions',
+          element: <Transactions />
+        },
+        {
+          path: 'dossier_prets',
+          element: <DossierPrets />
+        },
+        {
+          path: 'prets',
+          element: <Prets />
+        },
+        {
+          path: 'remboursements',
+          element: <Remboursements />
+        },
+        {
+          path: 'recettes',
+          element: <Recettes />
+        },
+        {
+          path: 'utilisateurs',
+          element: <Utilisateurs />
+        },
+        {
+          path: 'profils',
+          element: <Profils />
+        },
+        {
+          path: 'roles',
+          element: <Roles />
+        },
+        {
+          path: 'microfinance',
+          element: <Microfinance />
         }
       ]
-    },
-    {
-      path: 'membres',
-      element: <Membres />
-    },
-    {
-      path: 'carnets',
-      element: <Carnets />
-    },
-    {
-      path: 'comptes',
-      element: <Comptes />
-    },
-    {
-      path: '/cotisations',
-      element: <Cotisations />
-    },
-    {
-      path: '/retraits',
-      element: <Retraits />
-    },
-    {
-      path: '/transactions',
-      element: <Transactions />
-    },
-    {
-      path: '/prets',
-      element: <Prets />
-    },
-    {
-      path: '/remboursements',
-      element: <Remboursements />
-    },
-    {
-      path: '/recettes',
-      element: <Recettes />
-    },
-    {
-      path: '/utilisateurs',
-      element: <Utilisateurs />
-    },
-    {
-      path: '/profils',
-      element: <Profils />
-    },
-    {
-      path: '/roles',
-      element: <Roles />
-    },
-    {
-      path: '/microfinance',
-      element: <Microfinance />
-    },
+    }
   ]
 };
 

@@ -21,28 +21,28 @@ const administration = {
       icon: icons.IconKey,
       children: [
         {
-          id: 'login',
+          id: 'users',
           title: 'Utilisateurs',
           type: 'item',
           url: '/utilisateurs',
           breadcrumbs: false
         },
         {
-          id: 'login',
+          id: 'profils',
           title: 'Prolfils',
           type: 'item',
           url: '/profils',
           breadcrumbs: false
         },
         {
-          id: 'register',
+          id: 'roles',
           title: 'Roles',
           type: 'item',
           url: '/roles',
           breadcrumbs: false
         },
         {
-          id: 'register',
+          id: 'microfinance',
           title: 'Microfinance',
           type: 'item',
           url: '/microfinance',

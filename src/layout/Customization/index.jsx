@@ -47,7 +47,7 @@ export default function Customization() {
             borderBottomLeftRadius: '50%',
             borderTopRightRadius: '50%',
             borderBottomRightRadius: '4px',
-            top: '25%',
+            top: '80%',
             position: 'fixed',
             right: 10,
             zIndex: 1200,

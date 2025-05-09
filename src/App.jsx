@@ -7,6 +7,7 @@ import router from 'routes';
 import NavigationScroll from 'layout/NavigationScroll';
 
 import ThemeCustomization from 'themes';
+import { UserProvider } from './contexts/UserContext';
 
 // auth provider
 
@@ -15,11 +16,11 @@ import ThemeCustomization from 'themes';
 export default function App() {
   return (
     <ThemeCustomization>
-      <NavigationScroll>
-        <>
+      <UserProvider>
+        <NavigationScroll>
           <RouterProvider router={router} />
-        </>
-      </NavigationScroll>
+        </NavigationScroll>
+      </UserProvider>
     </ThemeCustomization>
   );
 }

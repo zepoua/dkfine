@@ -5,7 +5,6 @@ import App from 'App';
 import * as serviceWorker from 'serviceWorker';
 import reportWebVitals from 'reportWebVitals';
 import { ConfigProvider } from 'contexts/ConfigContext';
-import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 // style + assets
@@ -26,8 +25,12 @@ import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/500.css';
 import '@fontsource/poppins/600.css';
 import '@fontsource/poppins/700.css';
+import axios from 'axios';
 
 // ==============================|| REACT DOM RENDER ||============================== //
+
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 
 const container = document.getElementById('root');
 const root = createRoot(container);

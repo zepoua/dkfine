@@ -73,8 +73,8 @@ function Utilisateurs() {
       handleClose();
     } catch (err) {
       console.error(err);
-      errorToast('Erreur lors de l\'enregistrement');
-    }
+      const message = err.response?.data?.message || 'Une erreur s’est produite.';
+      errorToast(message);    }
   };
 
   const confirmDelete = (id) => {

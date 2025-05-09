@@ -42,6 +42,13 @@ const caisse = {
           breadcrumbs: false
         },
         {
+          id: 'dossier_prets',
+          title: 'Dossier Prets',
+          type: 'item',
+          url: '/dossier_prets',
+          breadcrumbs: false
+        },
+        {
           id: 'prets',
           title: 'Prets',
           type: 'item',
