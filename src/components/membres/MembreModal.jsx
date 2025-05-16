@@ -2,8 +2,6 @@ import React from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 
 function MembreModal({ show, handleClose, handleChange, handleSubmit, form, editingMembre }) {
-  const today = new Date().toISOString().split('T')[0];
-
   return (
     <Modal
       show={show}
@@ -42,7 +40,7 @@ function MembreModal({ show, handleClose, handleChange, handleSubmit, form, edit
             <Form.Control
               type="date"
               name="date_naissance"
-              value={form.date_naissance || today}
+              value={form.date_naissance}
               onChange={handleChange}
               required
             />

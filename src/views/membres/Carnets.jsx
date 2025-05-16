@@ -112,10 +112,10 @@ function Carnets() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des carnets</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des carnets</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }

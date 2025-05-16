@@ -10,7 +10,6 @@ function MembreTable({ membres, onEdit, onDelete, loading }) {
     { name: 'Date naissance', selector: row => row.date_naissance, sortable: true },
     { name: 'Téléphone', selector: row => row.telephone, sortable: true },
     { name: 'Adresse', selector: row => row.adresse, sortable: true },
-    { name: 'Pièce identité', selector: row => row.piece_identite, sortable: true },
     { name: 'Utilisateur', selector: row => row.user.nom, sortable: true },
     {
       name: 'Actions',

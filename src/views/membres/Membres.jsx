@@ -15,14 +15,14 @@ function Membres() {
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [editingMembre, setEditingMembre] = useState(null);
-  const { user } = useUser();
+  const { user, fetchMembres } = useUser();
   const [form, setForm] = useState({
-    nom: '', prenom: '', adresse: '', telephone: '', piece_identite: '', user_id: null
+    nom: '', prenom: '', adresse: '', date_naissance: '', telephone: '', piece_identite: '', user_id: null
   });
   const [showConfirm, setShowConfirm] = useState(false);
   const [membreToDelete, setMembreToDelete] = useState(null);
 
-  const fetchMembres = async () => {
+  const fetchMembre = async () => {
     try {
       const res = await getMembres();
       setMembres(res.data);
@@ -35,7 +35,7 @@ function Membres() {
   };
 
   useEffect(() => {
-    fetchMembres();
+    fetchMembre();
   }, []);
 
   const handleShow = (membre = null) => {
@@ -43,7 +43,7 @@ function Membres() {
       setForm({ ...membre });
       setEditingMembre(membre.id);
     } else {
-      setForm({ nom: '', prenom: '', adresse: '', telephone: '', piece_identite: '', user_id: user.id });
+      setForm({ nom: '', prenom: '', date_naissance: new Date().toISOString().split('T')[0], adresse: '', telephone: '', piece_identite: '', user_id: user.id });
       setEditingMembre(null);
     }
     setShow(true);
@@ -54,26 +54,48 @@ function Membres() {
   const closeConfirm = () => setShowConfirm(false);
 
   const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
+    const { name, value, files } = e.target;
+
+    if (files) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        [name]: files[0],
+      }));
+    } else {
+      setForm((prevForm) => ({
+        ...prevForm,
+        [name]: value,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const formData = new FormData();
+    for (const key in form) {
+      if (form[key]) {
+        formData.append(key, form[key]);
+      }
+    }
+
     try {
       if (editingMembre) {
-        await updateMembre(editingMembre, form);
+        await updateMembre(editingMembre, formData); // API doit accepter FormData
         successToast('Membre modifié');
       } else {
-        await createMembre(form);
+        await createMembre(formData); // API doit accepter FormData
         successToast('Membre créé');
       }
       fetchMembres();
+      fetchMembre();
       handleClose();
     } catch (err) {
       console.error(err);
-      errorToast('Erreur lors de l\'enregistrement du membre');
+      errorToast(err.response?.data?.message || 'Erreur inconnue');
     }
   };
+
 
   const confirmDelete = (id) => {
     setMembreToDelete(id);
@@ -85,9 +107,10 @@ function Membres() {
       await deleteMembre(membreToDelete);
       successToast('Membre supprimé');
       fetchMembres();
+      fetchMembre();
     } catch (err) {
       console.error(err);
-      errorToast('Erreur lors de la suppression du membre');
+      errorToast(err.response?.data?.message || 'Erreur inattendue');
     } finally {
       setShowConfirm(false);
     }
@@ -97,10 +120,10 @@ function Membres() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des membres</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des membres</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }

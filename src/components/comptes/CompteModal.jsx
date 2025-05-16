@@ -54,6 +54,7 @@ function CompteModal({
               value={form.solde}
               onChange={handleChange}
               required
+              disabled={editingCompte}
             />
           </Form.Group>
 
@@ -64,7 +65,7 @@ function CompteModal({
               name="part_social"
               value={form.part_social}
               onChange={handleChange}
-              required
+              disabled={true}
             />
           </Form.Group>
 
@@ -75,7 +76,7 @@ function CompteModal({
               name="part_minimal"
               value={form.part_minimal}
               onChange={handleChange}
-              required
+              disabled={true}
             />
           </Form.Group>
 
@@ -91,6 +92,26 @@ function CompteModal({
                 ))}
             </Form.Select>
           </Form.Group>
+
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>État du compte</Form.Label>
+              <Form.Select
+                name="etat"
+                value={form.etat}
+                onChange={handleChange}
+                required
+              >
+                <option value="">-- Choisir un état --</option>
+                <option value="Actif">Actif</option>
+                <option value="Inactif">Inactif</option>
+                <option value="Suspendu">Suspendu</option>
+              </Form.Select>
+            </Form.Group>
+
+            {/* ... bouton submit ... */}
+          </Form>
+
 
           <Button variant="primary" type="submit">
             {editingCompte ? 'Modifier' : 'Créer'}

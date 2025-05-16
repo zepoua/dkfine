@@ -4,27 +4,27 @@ import { Button } from 'react-bootstrap';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import { Spinner } from 'react-bootstrap';
 
-function UserTable({ users, onEdit, onDelete, loading }) {
+function RembourseTable({ remboursements, onEdit, onDelete, loading }) {
   const columns = [
-    { name: 'Nom', selector: row => row.nom, sortable: true },
-    { name: 'Adresse', selector: row => row.adresse, sortable: true },
-    { name: 'Téléphone', selector: row => row.telephone, sortable: true },
-    { name: 'Role', selector: row => row.role.libelle, sortable: true },
-    { name: 'Email', selector: row => row.email, sortable: true },
-    { name: 'Carnet', selector: row => row.qte_carnet, sortable: true },
-    {
-      name: 'Actions',
-      cell: (row) => (
-        <>
-          <Button variant="warning" size="sm" className="me-2" onClick={() => onEdit(row)}>
-            <FaEdit />
-          </Button>
-          {/* <Button variant="danger" size="sm" onClick={() => onDelete(row.id)}>
-            <FaTrash />
-          </Button> */}
-        </>
-      )
-    }
+    { name: 'Date', selector: row => row.dateRemboursement, sortable: true },
+    { name: 'Pret', selector: row => row.code, sortable: true },
+    { name: 'Montant fcfa', selector: row => row.montant, sortable: true },
+    { name: 'Membre', selector: row => row.nom_membre, sortable: true },
+    { name: 'N° Compte', selector: row => row.numero_compte, sortable: true },
+    { name: 'Utilisateur', selector: row => row.nom, sortable: true },
+    // {
+    //   name: 'Actions',
+    //   cell: (row) => (
+    //     <>
+    //       <Button variant="warning" size="sm" className="me-2" onClick={() => onEdit(row)}>
+    //         <FaEdit />
+    //       </Button>
+    //       <Button variant="danger" size="sm" onClick={() => onDelete(row.id)}>
+    //         <FaTrash />
+    //       </Button>
+    //     </>
+    //   )
+    // }
   ];
 
   const customStyles = {
@@ -55,13 +55,13 @@ function UserTable({ users, onEdit, onDelete, loading }) {
     <div className="w-full">
       <DataTable
         columns={columns}
-        data={users}
+        data={remboursements}
         pagination
         highlightOnHover
         pointerOnHover
         dense
         striped
-        noDataComponent="Aucun utilisateur trouvé"
+        noDataComponent="Aucun remboursement"
         progressPending={loading} // ← booléen indiquant si on charge encore
         progressComponent={<Spinner animation="border" variant="primary" />}
         customStyles={customStyles}
@@ -70,4 +70,4 @@ function UserTable({ users, onEdit, onDelete, loading }) {
   );
 }
 
-export default UserTable;
+export default RembourseTable;

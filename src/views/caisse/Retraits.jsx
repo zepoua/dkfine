@@ -5,7 +5,7 @@ import { successToast, errorToast } from '../../outils/ToastConfig';
 import { ToastContainer } from 'react-toastify';
 import MainCard from 'ui-component/cards/MainCard';
 import ConfirmDeleteModal from '../../components/Alert/ConfirmDelete';
-import {getCarnets } from '../../services/CotisationService';
+import { getCarnets } from '../../services/CotisationService';
 import { useUser } from '../../contexts/UserContext';
 import { getRetraits, createRetrait, deleteRetrait, getCycles, updateRetrait } from '../../services/RetraitService';
 import RetraitTable from '../../components/retraits/RetraitTable';
@@ -43,7 +43,7 @@ function Retraits() {
 
   const handleShow = (retrait = null) => {
     if (retrait) {
-      setForm({ ...retrait,});
+      setForm({ ...retrait, });
       setEditRetrait(retrait.id);
     } else {
       setForm({ date: new Date().toISOString().split('T')[0], membre_id: '', carnet_id: '', cycle_id: '', montant_cotise: '', montant_retire: '', user_id: user.id });
@@ -59,7 +59,7 @@ function Retraits() {
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  
+
     if (name === 'membre_id') {
       try {
         const res = await getCarnets(value); // Attendre la réponse
@@ -76,7 +76,7 @@ function Retraits() {
         console.error("Erreur lors de la récupération des cycles :", error);
       }
     }
-  };  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -86,7 +86,7 @@ function Retraits() {
         successToast('Retrait modifie');
       } else {
         await createRetrait(form);
-        successToast('Retrait enregistre');        
+        successToast('Retrait enregistre');
       }
       fetchRetraits();
       handleClose();
@@ -119,17 +119,17 @@ function Retraits() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des retraits</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des retraits</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }
     >
       <div style={{ minWidth: 990 }}>
         <RetraitTable retraits={retraits} onEdit={handleShow} onDelete={confirmDelete} loading={loading} />
-        <RetraitModal show={show} handleClose={handleClose} handleChange={handleChange} handleSubmit={handleSubmit} form={form} editRetrait={editRetrait} membres={membres} carnets={carnets} cycles={cycles}/>
+        <RetraitModal show={show} handleClose={handleClose} handleChange={handleChange} handleSubmit={handleSubmit} form={form} editRetrait={editRetrait} membres={membres} carnets={carnets} cycles={cycles} />
       </div>
       <ConfirmDeleteModal show={showConfirm} ModalClose={closeConfirm} handleConfirm={handleDelete} />
       <ToastContainer />

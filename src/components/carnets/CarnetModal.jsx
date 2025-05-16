@@ -38,7 +38,7 @@ function CarnetModal({ show, handleClose, handleChange, handleSubmit, form, edit
               {Array.isArray(membres) &&
                 membres.map((m) => (
                   <option key={m.id} value={m.id}>
-                    {m.nom}
+                    {m.nom} / {m.prenom}
                   </option>
                 ))}
             </Form.Select>

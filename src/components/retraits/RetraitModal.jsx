@@ -19,7 +19,7 @@ function RetraitModal({ show, handleClose, handleChange, handleSubmit, form, edi
                             <option value="">-- Sélectionner le membre --</option>
                             {membres.map((membre) => (
                                 <option key={membre.id} value={membre.id}>
-                                    {membre.nom}
+                                    {membre.nom} / {membre.prenom}
                                 </option>
                             ))}
                         </Form.Select>

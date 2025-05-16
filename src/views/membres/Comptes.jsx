@@ -12,7 +12,7 @@ import { useUser } from '../../contexts/UserContext';
 
 function Comptes() {
   const [comptes, setComptes] = useState([]);
-  const { membres, user } = useUser();
+  const { membres, user, microfinance } = useUser();
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [editingCompte, setEditingCompte] = useState(null);
@@ -23,6 +23,7 @@ function Comptes() {
     part_social: '',
     part_minimal: '',
     membre_id: '',
+    etat: 'Actif',
     user_id: null,
   });
   const [showConfirm, setShowConfirm] = useState(false);
@@ -56,9 +57,10 @@ function Comptes() {
         numero_compte: '',
         type_compte: '',
         solde: '',
-        part_social: '',
-        part_minimal: '',
+        part_social: microfinance.part_social,
+        part_minimal: microfinance.part_minimal,
         membre_id: '',
+        etat: 'Actif',
         user_id: user.id,
       });
       setEditingCompte(null);
@@ -95,7 +97,7 @@ function Comptes() {
       console.error(err);
       errorToast(err.response.data.message);
       console.log(err);
-      
+
     }
   };
 
@@ -121,10 +123,10 @@ function Comptes() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des comptes</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des comptes</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }
@@ -135,9 +137,10 @@ function Comptes() {
           onEdit={handleShow}
           onDelete={confirmDelete}
           loading={loading}
+          microfinance={microfinance}
         />
       </div>
-      
+
       <CompteModal
         show={show}
         handleClose={handleClose}

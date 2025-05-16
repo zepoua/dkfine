@@ -74,7 +74,8 @@ function Utilisateurs() {
     } catch (err) {
       console.error(err);
       const message = err.response?.data?.message || 'Une erreur s’est produite.';
-      errorToast(message);    }
+      errorToast(message);
+    }
   };
 
   const confirmDelete = (id) => {
@@ -99,10 +100,10 @@ function Utilisateurs() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des utilisateurs</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des utilisateurs</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }

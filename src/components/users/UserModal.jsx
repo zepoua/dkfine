@@ -43,9 +43,8 @@ function UserModal({ show, handleClose, handleChange, handleSubmit, form, editin
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Nombre de carnet recu</Form.Label>
-            <Form.Control type="number" name="qte_carnet" value={form.qte_carnet} onChange={handleChange} />
+            <Form.Control type="number" name="qte_carnet" value={form.qte_carnet} onChange={handleChange} disabled={editingUser}/>
           </Form.Group>
-
           <Button variant="primary" type="submit">
             {editingUser ? 'Modifier' : 'Créer'}
           </Button>

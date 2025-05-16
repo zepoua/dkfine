@@ -18,7 +18,7 @@ function Transactions() {
   const [show, setShow] = useState(false);
   const [editTransaction, setEditTransaction] = useState(null);
   const [form, setForm] = useState({
-    date: '', membre_id: '', compte_id: '', type_transaction:'' ,montant: '', user_id: null
+    date: '', membre_id: '', compte_id: '', type_transaction: '', montant: '', user_id: null
   });
   const [showConfirm, setShowConfirm] = useState(false);
   const [transactionDelete, setTransactionDelete] = useState(null);
@@ -44,7 +44,7 @@ function Transactions() {
       setForm({ ...transaction });
       setEditTransaction(transaction.id);
     } else {
-      setForm({ date: new Date().toISOString().split('T')[0], membre_id: '', compte_id: '', type_transaction:'' ,montant: '', user_id: user.id });
+      setForm({ date: new Date().toISOString().split('T')[0], membre_id: '', compte_id: '', type_transaction: '', montant: '', user_id: user.id });
       setEditTransaction(null);
     }
     setShow(true);
@@ -57,7 +57,7 @@ function Transactions() {
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  
+
     if (name === 'membre_id') {
       try {
         const res = await getComptes(value); // Attendre la réponse
@@ -66,7 +66,7 @@ function Transactions() {
         console.error("Erreur lors de la récupération des comptes :", error);
       }
     }
-  };  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -76,7 +76,7 @@ function Transactions() {
         successToast('Transaction modifiee');
       } else {
         await createTransaction(form);
-        successToast('Transaction enregistree');        
+        successToast('Transaction enregistree');
       }
       fetchTransactions();
       handleClose();
@@ -109,10 +109,10 @@ function Transactions() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des transactions</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des transactions</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }

@@ -16,9 +16,9 @@ function CarnetTable({ carnets, onEdit, onDelete, loading }) {
           <Button variant="warning" size="sm" className="me-2" onClick={() => onEdit(row)}>
             <FaEdit />
           </Button>
-          <Button variant="danger" size="sm" onClick={() => onDelete(row.id)}>
+          {/* <Button variant="danger" size="sm" onClick={() => onDelete(row.id)}>
             <FaTrash />
-          </Button>
+          </Button> */}
         </>
       )
     }

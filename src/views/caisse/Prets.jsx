@@ -4,30 +4,28 @@ import { FaPlus } from 'react-icons/fa';
 import { successToast, errorToast } from '../../outils/ToastConfig';
 import { ToastContainer } from 'react-toastify';
 import MainCard from 'ui-component/cards/MainCard';
-import ConfirmDeleteModal from '../../components/Alert/ConfirmDelete';
-import { createPret, deletePret, getPrets, updatePret } from '../../services/PretService';
+import { createPret, deletePret, getDossiers, getPrets, updatePret } from '../../services/PretService';
 import { useUser } from '../../contexts/UserContext';
 import PretTable from '../../components/prets/PretTable';
 import PretModal from '../../components/prets/PretModal';
-import { getComptes } from '../../services/TransactionService';
 
 function Prets() {
   const [prets, setPrets] = useState([]);
-  const [comptes, setComptes] = useState([]);
-  const { membres, user } = useUser();
+  const [dossiers, setDossiers] = useState([]);
+  const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
   const [editPret, setEditPret] = useState(null);
   const [form, setForm] = useState({
-    date_debut: '', membre_id: '', compte_id: '', type_taux:'', taux:'', frais_dossier:'', montant: '', user_id: null
+    date_debut: '', date_pret: '', dossier_pret_id: '', mois: '', user_id: null
   });
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [pretDelete, setPretDelete] = useState(null);
 
   const fetchPrets = async () => {
     try {
       const res = await getPrets();
       setPrets(res.data);
+      const res1 = await getDossiers();
+      setDossiers(res1.data);
     } catch (err) {
       console.error(err);
       errorToast('Erreur lors du chargement');
@@ -40,12 +38,12 @@ function Prets() {
     fetchPrets();
   }, []);
 
-  const handleShow = (transaction = null) => {
-    if (transaction) {
-      setForm({ ...transaction });
-      setEditPret(transaction.id);
+  const handleShow = (pret = null) => {
+    if (pret) {
+      setForm({ ...pret });
+      setEditPret(pret.id);
     } else {
-      setForm({ date_debut: new Date().toISOString().split('T')[0], membre_id: '', compte_id: '', type_taux:'', taux:'', frais_dossier:'', montant: '', user_id: user.id });
+      setForm({ date_debut: new Date().toISOString().split('T')[0], date_pret: new Date().toISOString().split('T')[0], dossier_pret_id: '', mois: '', user_id: user.id });
       setEditPret(null);
     }
     setShow(true);
@@ -53,21 +51,10 @@ function Prets() {
 
   const handleClose = () => setShow(false);
 
-  const closeConfirm = () => setShowConfirm(false);
-
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  
-    if (name === 'membre_id') {
-      try {
-        const res = await getComptes(value); // Attendre la réponse
-        setComptes(res.data);               // Puis mettre à jour les comptes
-      } catch (error) {
-        console.error("Erreur lors de la récupération des comptes :", error);
-      }
-    }
-  };  
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,7 +64,7 @@ function Prets() {
         successToast('Pret modifie');
       } else {
         await createPret(form);
-        successToast('Pret enregistree');        
+        successToast('Pret enregistree');
       }
       fetchPrets();
       handleClose();
@@ -88,41 +75,22 @@ function Prets() {
     }
   };
 
-  const confirmDelete = (id) => {
-    setPretDelete(id);
-    setShowConfirm(true);
-  };
-
-  const handleDelete = async () => {
-    try {
-      await deletePret(pretDelete);
-      successToast('Pret supprimée');
-      fetchPrets();
-    } catch (err) {
-      console.error(err);
-      errorToast('Erreur lors de la suppression');
-    } finally {
-      setShowConfirm(false);
-    }
-  };
-
   return (
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des prets</span>
-          <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des prêts</span>
+          <Button variant="primary" onClick={()=>handleShow()}>
+            <FaPlus className="me-2" /> Simulation de pret
           </Button>
         </div>
       }
     >
       <div style={{ minWidth: 990 }}>
-        <PretTable prets={prets} onEdit={handleShow} onDelete={confirmDelete} loading={loading} />
-        <PretModal show={show} handleClose={handleClose} handleChange={handleChange} handleSubmit={handleSubmit} form={form} editPret={editPret} membres={membres} comptes={comptes} />
+        <PretTable prets={prets} loading={loading} />
+        <PretModal show={show} handleClose={handleClose} handleChange={handleChange} handleSubmit={handleSubmit} form={form} dossiers={dossiers} />
       </div>
-      <ConfirmDeleteModal show={showConfirm} ModalClose={closeConfirm} handleConfirm={handleDelete} />
       <ToastContainer />
     </MainCard>
   );

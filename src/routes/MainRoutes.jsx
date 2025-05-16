@@ -18,6 +18,7 @@ import Roles from '../views/administration/Roles';
 import Microfinance from '../views/administration/Microfinance';
 import PrivateRoute from './PrivateRoute';
 import DossierPrets from '../views/caisse/DossierPrets';
+import PretInfo from '../views/caisse/PretInfo';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard/Default')));
@@ -73,6 +74,10 @@ const MainRoutes = {
         {
           path: 'prets',
           element: <Prets />
+        },
+        {
+          path: 'pret/:id/situation',
+          element: <PretInfo />
         },
         {
           path: 'remboursements',

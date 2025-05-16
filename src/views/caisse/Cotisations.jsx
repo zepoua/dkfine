@@ -6,19 +6,20 @@ import { ToastContainer } from 'react-toastify';
 import MainCard from 'ui-component/cards/MainCard';
 import ConfirmDeleteModal from '../../components/Alert/ConfirmDelete';
 import CotisationTable from '../../components/cotisations/CotisationTable';
-import { createCotisation, deleteCotisation, getCarnets, getCotisations, updateCotisation } from '../../services/CotisationService';
+import { createCotisation, deleteCotisation, getCotisations, updateCotisation } from '../../services/CotisationService';
 import { useUser } from '../../contexts/UserContext';
 import CotisationModal from '../../components/cotisations/CotisationModal';
+import { api_url } from '../../services/config';
+import axios from 'axios';
 
 function Cotisations() {
   const [cotisations, SetCotisations] = useState([]);
-  const [carnets, setCarnets] = useState([]);
-  const { membres, user } = useUser();
+  const { user } = useUser();
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
-  const [editCotisation, setEditCotisation] = useState(null);
+  const [editCotisation, setEditCotisation] = useState(false);
   const [form, setForm] = useState({
-    date_cotisation: '', membre_id: '', carnet_id: '', montant: '', user_id: null
+    date_cotisation: '', carnet_id: null, carnet: '', membre: '', mise: '', nbre_mise: '', user_id: null
   });
   const [showConfirm, setShowConfirm] = useState(false);
   const [cotisationDelete, setCotisationDelete] = useState(null);
@@ -40,13 +41,7 @@ function Cotisations() {
   }, []);
 
   const handleShow = (cotisation = null) => {
-    if (cotisation) {
-      setForm({ ...cotisation, password: '' });
-      setEditCotisation(cotisation.id);
-    } else {
-      setForm({ date_cotisation: new Date().toISOString().split('T')[0], membre_id: '', carnet_id: '', montant: '', user_id: user.id });
-      setEditCotisation(null);
-    }
+    setForm({ date_cotisation: new Date().toISOString().split('T')[0], carnet_id: null, carnet: '', membre: '', mise: '', nbre_mise: '', user_id: user.id });
     setShow(true);
   };
 
@@ -57,27 +52,42 @@ function Cotisations() {
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setForm((prevForm) => ({ ...prevForm, [name]: value }));
-  
-    if (name === 'membre_id') {
-      try {
-        const res = await getCarnets(value); // Attendre la réponse
-        setCarnets(res.data);               // Puis mettre à jour les carnets
-      } catch (error) {
-        console.error("Erreur lors de la récupération des carnets :", error);
+  };
+
+  const handleQuit = async (e) => {
+    const { name, value } = e.target;
+    try {
+      if (value !== '') {
+        const res = await axios.get(`${api_url}/find_carnet/${value}`);
+        setForm((prevForm) => ({
+          ...prevForm,
+          carnet_id: res.data.data.id,
+          membre: res.data.data.membre_nom,
+          mise: res.data.data.mise,
+        }));
+        if (res.data.data.etat !== 'Encours') {
+          setEditCotisation(true);
+        }
+        successToast(res.data.status);
       }
+    } catch (error) {
+      setForm((prevForm) => ({
+        ...prevForm,
+        carnet_id: null,
+        membre: '',
+        mise: '',
+      }));
+      setEditCotisation(false);
+      console.log(error);
+      errorToast(error.response.data.message);
     }
-  };  
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editCotisation) {
-        await updateCotisation(editCotisation, form);
-        successToast('Cotisation modifiee');
-      } else {
-        await createCotisation(form);
-        successToast('Cotisation enregistree');        
-      }
+      await createCotisation(form);
+      successToast('Cotisation enregistree');
       fetchCotisations();
       handleClose();
     } catch (err) {
@@ -109,17 +119,17 @@ function Cotisations() {
     <MainCard
       style={{ width: '100%', overflowX: 'auto' }}
       title={
-        <div className="flex justify-between items-center">
-          <span style={{ marginRight: 100 }}>Gestion des cotisations</span>
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <span className="fw-bold fs-5">Gestion des cotisations</span>
           <Button variant="primary" onClick={() => handleShow()}>
-            <FaPlus className="mr-2" /> Nouveau
+            <FaPlus className="me-2" /> Nouveau
           </Button>
         </div>
       }
     >
       <div style={{ minWidth: 990 }}>
         <CotisationTable cotisations={cotisations} onEdit={handleShow} onDelete={confirmDelete} loading={loading} />
-        <CotisationModal show={show} handleClose={handleClose} handleChange={handleChange} handleSubmit={handleSubmit} form={form} editCotisation={editCotisation} membres={membres} carnets={carnets} />
+        <CotisationModal show={show} handleClose={handleClose} handleChange={handleChange} handleSubmit={handleSubmit} form={form} editCotisation={editCotisation} handleQuit={handleQuit} />
       </div>
       <ConfirmDeleteModal show={showConfirm} ModalClose={closeConfirm} handleConfirm={handleDelete} />
       <ToastContainer />
